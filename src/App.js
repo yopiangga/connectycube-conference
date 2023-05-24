@@ -1,23 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import { Route } from "react-router";
+import React, { useContext } from "react";
+import "./App.scss";
+import Conference from "./Components/Conference/Conference";
+import Main from "./Components/Main/Main";
+import CallContext from "./services/call-service";
+import { ChatProvider } from "./services/chat-service";
 
-function App() {
+function App(props) {
+  const call = useContext(CallContext);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="wrapper">
+      <header className="header" />
+      <main className="main">
+        <div className="page__main">
+          <Route exact path="/">
+            <Main call={call} />
+          </Route>
+          <Route path={`/join/`}>
+            <ChatProvider>
+              <Conference call={call} />
+            </ChatProvider>
+          </Route>
+        </div>
+      </main>
+      <footer />
     </div>
   );
 }
